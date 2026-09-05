@@ -1,0 +1,36 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b3b35"><meta name="description" content="Pharmacy Plus — منصة تعليمية صيدلانية لطلاب الصيدلة، إدارة وتطوير حسين سعد قاسم.">
+<title>Pharmacy Plus | حسين سعد قاسم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">✚</div><div><div class="brand-title">Pharmacy Plus</div><div class="brand-meta">PHARMACY • LEARNING • CLINICAL</div></div></div>
+  <button class="mobile-close" id="mobileClose">×</button>
+  <nav class="nav">
+    <button data-view="home" class="nav-btn active">⌂ <span>الرئيسية</span></button>
+    <button data-view="systems" class="nav-btn">◫ <span>أنظمة الأدوية</span></button>
+    <button data-view="drugs" class="nav-btn">💊 <span>مكتبة الأدوية</span></button>
+    <button data-view="guides" class="nav-btn">📚 <span>Clinical Guides</span></button>
+    <button data-view="interactions" class="nav-btn">⚠ <span>التداخلات</span></button>
+    <button data-view="cases" class="nav-btn">🩺 <span>حالات سريرية</span></button>
+    <button data-view="quiz" class="nav-btn">✓ <span>اختبر نفسك</span></button>
+    <button data-view="favorites" class="nav-btn">★ <span>المفضلة</span></button>
+    <div class="nav-divider"></div>
+    <button data-view="admin" class="nav-btn admin">⚙ <span>إدارة الموقع</span></button>
+  </nav>
+  <div class="sidebar-bottom"><div class="study-card"><span>وضع الدراسة</span><b id="progressText">0%</b><div class="bar"><i id="progressBar"></i></div></div><button id="themeToggle" class="mode-btn">☾ الوضع الليلي</button><div class="owner">إدارة وتطوير<br><strong>حسين سعد قاسم</strong></div></div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="topbar-left"><button id="mobileOpen" class="mobile-open">☰</button><div id="crumb">الرئيسية</div></div><div class="topbar-right"><button id="adminAccessButton" class="admin-access-btn" type="button">🔐 <span>دخول المدير</span></button><button id="randomDrug" class="icon-btn" title="دواء عشوائي">⚡</button><button id="globalSearchBtn" class="search-shortcut">ابحث عن دواء… <kbd>Ctrl K</kbd></button><div class="avatar">HSQ</div></div></header>
+  <div id="page" class="page"></div>
+  <footer class="footer"><span><b>Pharmacy Plus</b> · منصة تعليمية صيدلانية</span><span>© <span id="year"></span> حسين سعد قاسم · نسخة <span id="version"></span></span></footer>
+</main></div>
+<div id="modal" class="modal" aria-hidden="true"><div class="modal-box"><button id="modalClose" class="modal-close">×</button><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="assets/data.js"></script><script src="assets/config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/app.js"></script>
+</body></html>
