@@ -28,6 +28,7 @@ jobs:
           unzip -q /tmp/pharmacy-plus.zip -d /tmp/pharmacy-plus
           ROOT_DIR="$(find /tmp/pharmacy-plus -mindepth 1 -maxdepth 1 -type d | head -n 1)"
           cp -a "$ROOT_DIR"/. .
+          rm -rf .import
           git config user.name "Pharmacy Plus Bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A
