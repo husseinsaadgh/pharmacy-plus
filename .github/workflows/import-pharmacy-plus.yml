@@ -1,0 +1,39 @@
+name: Import Pharmacy Plus package
+
+on:
+  push:
+    paths:
+      - '.import/READY'
+
+permissions:
+  contents: write
+
+jobs:
+  import-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild and extract Pharmacy Plus
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .import/chunk-*.b64 > /tmp/pharmacy-plus.b64
+          base64 -d /tmp/pharmacy-plus.b64 > /tmp/pharmacy-plus.zip
+          rm -rf /tmp/pharmacy-plus
+          mkdir -p /tmp/pharmacy-plus
+          unzip -q /tmp/pharmacy-plus.zip -d /tmp/pharmacy-plus
+          ROOT_DIR="$(find /tmp/pharmacy-plus -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+          cp -a "$ROOT_DIR"/. .
+          git config user.name "Pharmacy Plus Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No site changes to commit."
+          else
+            git commit -m "Deploy complete Pharmacy Plus website"
+            git push origin HEAD:main
+          fi
