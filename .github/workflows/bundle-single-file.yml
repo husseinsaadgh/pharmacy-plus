@@ -1,0 +1,53 @@
+name: Build self-contained Pharmacy Plus
+
+on:
+  push:
+    paths:
+      - '.bundle/READY'
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inline CSS and JavaScript into index.html
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          html = Path('index.source.html').read_text(encoding='utf-8')
+          css = Path('assets/style.css').read_text(encoding='utf-8').replace('</style>', '<\\/style>')
+          data_js = Path('assets/data.js').read_text(encoding='utf-8').replace('</script>', '<\\/script>')
+          config_js = Path('assets/config.js').read_text(encoding='utf-8').replace('</script>', '<\\/script>')
+          app_js = Path('assets/app.js').read_text(encoding='utf-8').replace('</script>', '<\\/script>')
+
+          html = html.replace('<link rel="stylesheet" href="assets/style.css">', '<style>\n' + css + '\n</style>')
+          html = html.replace('<script src="assets/data.js"></script>', '<script>\n' + data_js + '\n</script>')
+          html = html.replace('<script src="assets/config.js"></script>', '<script>\n' + config_js + '\n</script>')
+          html = html.replace('<script src="assets/app.js"></script>', '<script>\n' + app_js + '\n</script>')
+
+          Path('index.html').write_text(html, encoding='utf-8')
+          print('Bundled index.html bytes:', Path('index.html').stat().st_size)
+          PY
+
+      - name: Commit bundled site
+        shell: bash
+        run: |
+          rm -rf .bundle
+          git config user.name "Pharmacy Plus Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html .bundle
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Bundle Pharmacy Plus into single-file deployment"
+            git push origin HEAD:main
+          fi
